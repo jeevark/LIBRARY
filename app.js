@@ -26,13 +26,14 @@ var mongoDB =require('./mongoDB')
 
 const admin =require('./Module/admin')
 const student =require('./Module/student')
+const { authenticateToken } =require('./Token/authentication')
 
 //calling function....................
 
 app.post('/signup',admin.signup);
 app.post('/student_signup',student.signup);
 app.post('/student_login',student.login);
-
+app.get('/posts',authenticateToken,student.auth);
 
 
 

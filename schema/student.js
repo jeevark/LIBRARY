@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
     },
     std_id:{
         type:String,
+        unique : true,
         require: true
     },
     password:{
@@ -15,7 +16,7 @@ const schema = new mongoose.Schema({
     },
     date : {
         type: Date,
-        default:Date.now(toString)
+        default:Date.now(String)
     },
 })
 
