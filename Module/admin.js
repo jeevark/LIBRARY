@@ -1,7 +1,20 @@
 
+const bcrypt =require('bcrypt');
+const jwt =require('jsonwebtoken');
+const { ACCESS_TOKEN } = require('../Token/authentication');
+
 const { collection } = require('../schema/Admin');
+
 const Admin ={
 
+    signin:async(req,res)=>{
+            var adm_inf = req.body.username;
+            const adm_psw = req.body.password;
+
+              adm_psw = await bcrypt.hashSync(adm_psw,10); 
+              console.log(adm_psw);
+                
+    },
     signup:async(req,res)=>{
 
         try {

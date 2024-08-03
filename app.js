@@ -30,6 +30,8 @@ const { authenticateToken } =require('./Token/authentication')
 
 //calling function....................
 
+
+app.post('/signin',admin.signin);
 app.post('/signup',admin.signup);
 app.post('/student_signup',student.signup);
 app.post('/student_login',student.login);
