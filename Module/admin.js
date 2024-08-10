@@ -7,14 +7,17 @@ const { collection } = require('../schema/Admin');
 
 const Admin ={
 
-    signin:async(req,res)=>{
-            var adm_inf = req.body.username;
-            const adm_psw = req.body.password;
+    // signin:async(req,res)=>{
+    //         let adm_inf = req.body.username;
+    //         let adm_psw = req.body.password;
 
-              adm_psw = await bcrypt.hashSync(adm_psw,10); 
-              console.log(adm_psw);
+    //           adm_psw = await bcrypt.hashSync(adm_psw,10); 
+    //           console.log(adm_psw);
+
+    //           const result =await collection.create({"username":adm_inf,"password":adm_psw});
                 
-    },
+    //           console.log(result);
+    // },
     signup:async(req,res)=>{
 
         try {
