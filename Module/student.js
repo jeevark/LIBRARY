@@ -77,7 +77,7 @@ const student ={
 
         console.log(req.user);
         res.send('Success....')
-    }
+    },
             
 };
 

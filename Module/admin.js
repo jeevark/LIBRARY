@@ -4,6 +4,7 @@ const jwt =require('jsonwebtoken');
 const { ACCESS_TOKEN } = require('../Token/authentication');
 
 const { collection } = require('../schema/Admin');
+const { booklist } = require('../schema/BookList');
 
 const Admin ={
 
@@ -50,6 +51,30 @@ const Admin ={
                 res.status(500).json({
                 error: 'Internal Server Error'});
             }}
+        },
+        addBook:async(req,res)=>{
+
+                try {
+                    const book_inf ={
+                        Book_Name:req.body.Book_Name,
+                        Book_title: req.body.Book_title,
+                        Book_Author : req.body.Book_Author,
+                        Book_Copy : req.body.Book_Copy
+                    };
+
+                     const result =await booklist.create(book_inf);
+
+                     console.log(result);
+
+                     res.status(200).send({'Status':'Success',"result":result})
+
+                } catch (error) {
+                    console.error('Error creating user:', error);
+
+                    res.status(500).json({
+                    error: 'Internal Server Error'});
+                    
+                }
         }
 
     };

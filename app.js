@@ -36,6 +36,7 @@ app.post('/signup',admin.signup);
 app.post('/student_signup',student.signup);
 app.post('/student_login',student.login);
 app.get('/posts',authenticateToken,student.auth);
+app.post('/addbook',admin.addBook);
 
 
 
