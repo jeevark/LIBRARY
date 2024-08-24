@@ -40,8 +40,8 @@ const student ={
 
             try {
                 
-                     const userid = req.body.loginid;
-                       const  userpassword = req.body.loginpsw;
+                    const userid = req.body.loginid;
+                    const  userpassword = req.body.loginpsw;
                 const sessionId =uuid();
                 //console.log(login_id.userid);
                 const result =await collection.findOne({"std_id" : userid});
@@ -55,7 +55,7 @@ const student ={
                         res.status(400).send(`password Don't Match............`);
                      }
                     else{
-                        let token_id =  jwt.sign({ userid, userpassword},ACCESS_TOKEN,{expiresIn:'30000'});
+                        let token_id =  jwt.sign({ userid, userpassword},ACCESS_TOKEN,{expiresIn:'1d'});
 
                         console.log(token_id);
 
@@ -79,6 +79,10 @@ const student ={
         res.send('Success....')
     },
             
+    lendBook:async(req,res)=>{
+
+        
+    }
 };
 
 module.exports = student;

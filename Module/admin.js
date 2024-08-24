@@ -56,25 +56,47 @@ const Admin ={
 
                 try {
                     const book_inf ={
+                        Book_num :req.body.Book_num,
                         Book_Name:req.body.Book_Name,
                         Book_title: req.body.Book_title,
                         Book_Author : req.body.Book_Author,
                         Book_Copy : req.body.Book_Copy
                     };
+                    //Book Checking.....
+                    const book =await booklist.findOne({Book_num:book_inf.Book_num});
+                        
+                    if(null==book){
+                        //Add neww Book............
+                        let result = await booklist.create(book_inf);
 
-                     const result =await booklist.create(book_inf);
+                        console.log(result);
+   
+                        res.status(200).send({'Status':'Success',"result":result})
+                        
+                    } else if(book_inf.Book_num==book['Book_num']) {
 
-                     console.log(result);
+                        //Same book but copys change..............
+                     var copys = parseInt(book_inf.Book_Copy)+ parseInt(book.Book_Copy);
+                     console.log(copys);
+                     let result = await booklist.updateOne({Book_num:book_inf.Book_num},{$set:{Book_Copy:copys}});
 
-                     res.status(200).send({'Status':'Success',"result":result})
-
+                     res.status(200).send({"result":result});
+                        
+                    }
+                    else{
+                        res.status(400).send({'Ststus':"Find Out Error......"});
+                    }
                 } catch (error) {
                     console.error('Error creating user:', error);
-
-                    res.status(500).json({
-                    error: 'Internal Server Error'});
-                    
-                }
+                    if (error.code === 11000) {
+                        // Duplicate key violation error
+                        res.status(409).json({
+                        error: 'Duplicate key error'
+                     });
+                    } else {
+                        res.status(500).json({
+                        error: 'Internal Server Error'});
+                    }}
         }
 
     };
