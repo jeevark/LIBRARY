@@ -38,7 +38,7 @@ app.post('/student_login',student.login);
 app.get('/posts',authenticateToken,student.auth);
 app.post('/addbook',admin.addBook);
 
-
+app.get('/lendBook/id/?',authenticateToken,student.lendBook);
 
 
 // catch 404 and forward to error handler

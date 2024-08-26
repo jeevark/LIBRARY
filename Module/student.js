@@ -70,7 +70,7 @@ const student ={
                 
             } catch (error) {
                 res.status(500).json({
-                    error: 'Internal Server Error.....'});
+                    error: 'User NOT Register.....'});
             }
     },
     auth:async (req,res)=>{
@@ -80,8 +80,24 @@ const student ={
     },
             
     lendBook:async(req,res)=>{
+        try {
+            //console.log(req.user.userid);
 
-        
+            let id = req.user.userid;
+            console.log(id)
+            //if(!id){
+    
+                const result =await collection.findOne({std_id:{$eq:id}})
+    
+                console.log(result);
+                console.log(req.query);
+                res.send('Sucess.........');
+            //}
+            
+        } catch (error) {
+
+            res.status(500).send("Internal Server Error....")
+        }   
     }
 };
 
