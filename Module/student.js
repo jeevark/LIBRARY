@@ -1,6 +1,7 @@
 const bcrypt =require('bcrypt');
 const uuid = require('uuid').v4;
 const { collection } = require('../schema/student');
+const { booklist } = require('../schema/BookList');
 const jwt =require('jsonwebtoken');
 
 const { ACCESS_TOKEN } = require('../Token/authentication');
@@ -84,15 +85,24 @@ const student ={
             //console.log(req.user.userid);
 
             let id = req.user.userid;
+            let query = req.query;
             console.log(id)
-            //if(!id){
     
-                const result =await collection.findOne({std_id:{$eq:id}})
+                const result = await collection.find({"std_id":{$eq:id}}).countDocuments();
     
                 console.log(result);
-                console.log(req.query);
+
+                if(id===1){
+                    console.log(req.query);
+
+                    const value = await booklist.find({query});
+                    console.log(value);
+                    
                 res.send('Sucess.........');
-            //}
+
+                }else{
+                    res.send(' User NOT found.........');
+                }
             
         } catch (error) {
 
