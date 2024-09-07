@@ -92,10 +92,11 @@ const student ={
     
                 console.log(result);
 
-                if(id===1){
+                if(result===1){
+    
                     console.log(req.query);
 
-                    const value = await booklist.find({query});
+                    const value = await booklist.findOne(query);
                     console.log(value);
                     
                 res.send('Sucess.........');
@@ -106,8 +107,32 @@ const student ={
             
         } catch (error) {
 
-            res.status(500).send("Internal Server Error....")
+            res.status(500).send("Internal Server Error....");
         }   
+    },
+    viwe_Book:async(req,res)=>{
+        try {
+
+            let id = req.user.userid;
+            let query = req.query;
+            console.log(id)
+    
+                const result = await booklist.find();
+    
+                console.log(result.length);
+                if(result.length!==0){
+
+                    res.send({'Result':result});
+                }
+                else{
+                    res.send("No Book's _____ Pls Add Book....... ");
+                }
+    
+        } catch (error) {
+
+            res.status(500).send("User Error :"+error);
+            
+        }
     }
 };
 

@@ -39,6 +39,7 @@ app.get('/posts',authenticateToken,student.auth);
 app.post('/addbook',admin.addBook);
 
 app.get('/lendBook/id/?',authenticateToken,student.lendBook);
+app.get('/viweBook/?',authenticateToken,student.viwe_Book)
 
 
 // catch 404 and forward to error handler
