@@ -2,12 +2,14 @@ const bcrypt =require('bcrypt');
 const uuid = require('uuid').v4;
 const { collection } = require('../schema/student');
 const { booklist } = require('../schema/BookList');
+const { lendbook } = require('../schema/lendbook');
 const jwt =require('jsonwebtoken');
 
 const { ACCESS_TOKEN } = require('../Token/authentication');
 
 //const { authenticateToken } =require('../Token/authentication')
 const sessions ={}; 
+let add = 0;
 
 const student ={
 
@@ -88,22 +90,39 @@ const student ={
             let query = req.query;
             console.log(id)
     
-                const result = await collection.find({"std_id":{$eq:id}}).countDocuments();
+                // const result = await collection.find({"std_id":{$eq:id}}).countDocuments();
     
-                console.log(result);
+                // console.log(result);
 
-                if(result===1){
+                // if(result===1){
     
                     console.log(req.query);
 
                     const value = await booklist.findOne(query);
                     console.log(value);
+                    const copy=--value['Book_Copy'];
+                    console.log(value);
+                    await booklist.updateOne(query,{$set:{Book_Copy:copy}})
+                    
+                    const book = {
+                        std_id : id,
+                        Book_num :value.Book_num,
+                        Book_Name : value.Book_Name,
+                        Book_title : value.Book_title,
+                        Book_Author : value.Book_Author
+                    };
+                    // add = ++add
+                    // book['Book_Copy'] = add;
+                    // console.log(book['Book_Copy']);
+                    console.log(book);
+                     const result =await lendbook.create(book);
+                    console.log(result);
                     
                 res.send('Sucess.........');
 
-                }else{
-                    res.send(' User NOT found.........');
-                }
+                // }else{
+                //     res.send(' User NOT found.........');
+                // }
             
         } catch (error) {
 

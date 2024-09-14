@@ -3,9 +3,12 @@ const mongoose =require('mongoose');
 const d = new Date();
 
 const schema = new mongoose.Schema({
+    std_id:{
+        type:String,
+        require: true
+    },
     Book_num:{
         type:Number,
-        unique : true,
         require:true
     },
     Book_Name:{
@@ -20,15 +23,11 @@ const schema = new mongoose.Schema({
         type:String,
         require:true
     },
-    Book_Copy:{
-        type:Number,
-        require:true
-    },
     date : {
         type: String,
         default:d.toLocaleDateString()
     },
 })
 
-const booklist =mongoose.model("BookList", schema);
-module.exports ={ booklist }
+const lendbook =mongoose.model("LendBook", schema);
+module.exports ={ lendbook }

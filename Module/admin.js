@@ -8,17 +8,6 @@ const { booklist } = require('../schema/BookList');
 
 const Admin ={
 
-    // signin:async(req,res)=>{
-    //         let adm_inf = req.body.username;
-    //         let adm_psw = req.body.password;
-
-    //           adm_psw = await bcrypt.hashSync(adm_psw,10); 
-    //           console.log(adm_psw);
-
-    //           const result =await collection.create({"username":adm_inf,"password":adm_psw});
-                
-    //           console.log(result);
-    // },
     signup:async(req,res)=>{
 
         try {

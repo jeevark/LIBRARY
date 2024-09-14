@@ -1,5 +1,5 @@
 const mongoose =require('mongoose');
-
+const d = new Date();
 const schema = new mongoose.Schema({
     std_name:{
         type:String,
@@ -15,8 +15,8 @@ const schema = new mongoose.Schema({
         require:true
     },
     date : {
-        type: Date,
-        default:Date.now(String)
+        type: String,
+        default:d.toLocaleDateString()
     },
 })
 
