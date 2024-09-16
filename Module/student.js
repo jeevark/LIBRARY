@@ -152,6 +152,26 @@ const student ={
             res.status(500).send("User Error :"+error);
             
         }
+    },
+    Return_Book:async(req,res)=>{
+
+            try {
+                let R_Book = req.query;
+
+                console.log(R_Book);
+
+                const value = await booklist.findOne(R_Book);
+                console.log(value);
+                const copy1=++value['Book_Copy'];
+                console.log(value);
+                await booklist.updateOne(R_Book,{$set:{Book_Copy:copy1}});
+                res.send({'Success':value});
+
+            } catch (error) {
+
+                res.send("No Book's _____ Pls Lend Books....... ");
+
+            }
     }
 };
 
