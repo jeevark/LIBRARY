@@ -1,8 +1,9 @@
 const bcrypt =require('bcrypt');
 const uuid = require('uuid').v4;
-const { collection } = require('../schema/student');
+const { studentBio } = require('../schema/student');
 const { booklist } = require('../schema/BookList');
 const { lendbook } = require('../schema/lendbook');
+const { deletebook } = require('../schema/deleteBook')
 const jwt =require('jsonwebtoken');
 
 const { ACCESS_TOKEN } = require('../Token/authentication');
@@ -23,7 +24,7 @@ const student ={
             student_inf['password']= await bcrypt.hashSync(student_inf.password,10);  
             console.log(student_inf);
 
-            const result =await collection.create(student_inf);
+            const result =await studentBio.create(student_inf);
 
             res.status(200).send({'Status':'Success',"result":result})
             
@@ -47,7 +48,7 @@ const student ={
                     const  userpassword = req.body.loginpsw;
                 const sessionId =uuid();
                 //console.log(login_id.userid);
-                const result =await collection.findOne({"std_id" : userid});
+                const result =await studentBio.findOne({"std_id" : userid});
 
                 //console.log(sessionId);
 
@@ -156,20 +157,59 @@ const student ={
     Return_Book:async(req,res)=>{
 
             try {
+
+                let id = req.user.userid;
                 let R_Book = req.query;
+                let date = req.body.date;
+                let booknum = R_Book['Book_num'];
 
                 console.log(R_Book);
+                console.log(booknum);
+
+                const s_one = await lendbook.findOne( {$and:[{date:{$eq:date}},{Book_num:{$eq:booknum}},{std_id:{$eq:id}}]})
+                console.log(s_one);
+                if(s_one!==null){
+                const D_book = {
+
+                    std_id : s_one.std_id,
+                    Book_num : s_one.Book_num,
+                    Book_Name : s_one.Book_Name,
+                    Book_title : s_one.Book_title,
+                    Book_Author : s_one.Book_Author
+                }
+                
+                await deletebook.create(D_book);
+
+                //lend Book Delete methods.................. 
+                const d_one = await lendbook.deleteOne( {$and:[{date:{$eq:date}},{Book_num:{$eq:booknum}},{std_id:{$eq:id}}]})
+
+               console.log(d_one.deletedCount);
+               if(d_one.deletedCount===1){
+                //update lend book copys methods.........
 
                 const value = await booklist.findOne(R_Book);
                 console.log(value);
                 const copy1=++value['Book_Copy'];
                 console.log(value);
+
+                //update value insert methods....................
                 await booklist.updateOne(R_Book,{$set:{Book_Copy:copy1}});
+
+               
                 res.send({'Success':value});
+               }else{
+                res.send({'Error':'You did not pick up this book......'})
+               }
+            }else{
+                console.log("You did not pick up this book..........");
+                
+                res.send("You did not pick up this book.................")
+            }
 
-            } catch (error) {
-
-                res.send("No Book's _____ Pls Lend Books....... ");
+            } catch (Error) {
+                console.log('Error : '+Error);
+                
+                res.send({'user Error':Error});
 
             }
     }

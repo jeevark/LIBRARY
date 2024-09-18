@@ -37,11 +37,14 @@ app.post('/student_signup',student.signup);
 app.post('/student_login',student.login);
 app.get('/posts',authenticateToken,student.auth);
 app.post('/addbook',admin.addBook);
+app.get('/studentList/',admin.studentBio);
 
-app.get('/lendBook/id/?',authenticateToken,student.lendBook);
-app.get('/viweBook/?',authenticateToken,student.viwe_Book)
+
+app.put('/lendBook/id/?',authenticateToken,student.lendBook);
+app.get('/viweBook/?',authenticateToken,student.viwe_Book);
 app.put('/ReturnBook/?',authenticateToken,student.Return_Book);
-
+app.get('/viewissuedBook/?',admin.ViweIssued);
+app.get('/ViweAllIssuedBooks/',admin.AllViweIssued);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

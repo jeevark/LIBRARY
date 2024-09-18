@@ -5,6 +5,8 @@ const { ACCESS_TOKEN } = require('../Token/authentication');
 
 const { collection } = require('../schema/Admin');
 const { booklist } = require('../schema/BookList');
+const { lendbook } =require("../schema/lendbook");
+const { studentBio } = require("../schema/student");
 
 const Admin ={
 
@@ -86,6 +88,56 @@ const Admin ={
                         res.status(500).json({
                         error: 'Internal Server Error'});
                     }}
+        },
+        ViweIssued:async(req,res)=>{
+
+                try {
+                    let query = req.query;
+                    console.log(query)
+            
+                        const result = await lendbook.find(query);
+            
+                        console.log(result);
+
+                    res.send({'Status':result});
+                } catch (error) {
+                    
+                    res.status(500).json({
+                        error: 'Internal Server Error'});
+                    
+                }
+
+
+        },
+        AllViweIssued:async(req,res)=>{
+
+            try {
+                    const result = await lendbook.find();
+        
+                    console.log(result);
+
+                res.send({'Status':result});
+            } catch (error) {
+                
+                res.status(500).json({
+                    error: 'Internal Server Error'});
+                
+            }
+        },
+        studentBio:async(req,res)=>{
+
+            try {
+                    const result = await studentBio.find();
+        
+                    console.log(result);
+
+                res.send({'Status':result});
+            } catch (error) {
+                
+                res.status(500).json({
+                    error: 'Internal Server Error'});
+                
+            }
         }
 
     };

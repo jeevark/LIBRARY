@@ -1,16 +1,25 @@
 const mongoose =require('mongoose');
+
 const d = new Date();
+
 const schema = new mongoose.Schema({
-    std_name:{
-        type:String,
-        require: true
-    },
     std_id:{
         type:String,
-        unique : true,
         require: true
     },
-    password:{
+    Book_num:{
+        type:Number,
+        require:true
+    },
+    Book_Name:{
+        type:String,
+        require: true
+    },
+    Book_title:{
+        type:String,
+        require: true
+    },
+    Book_Author:{
         type:String,
         require:true
     },
@@ -20,5 +29,5 @@ const schema = new mongoose.Schema({
     },
 })
 
-const studentBio =mongoose.model("libaray_student", schema);
-module.exports ={ studentBio }
+const deletebook =mongoose.model("delete_Book", schema);
+module.exports ={ deletebook }
